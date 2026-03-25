@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { useConnectStatus , ConnectionStatus } from "../connect-status-hooks"
+import { useConnectionStage } from "../connection-stage-hooks";
+import { createWebBluetoothConnection } from "@microbit/microbit-connection";
 
 const patterns: Record<string, string[]> = {
   spin: ["A", "D", "S"],
@@ -90,6 +93,7 @@ export default function UnlockPage() {
   return (
     <>
       <h1>Dance Unlock</h1>
+      <ConnectionStatusIndicator />
       <p>Press the keys <strong>A</strong>, <strong>D</strong>, and <strong>S</strong> to unlock dances.</p>
 
       <div className="dance-grid">{danceCards}</div>
@@ -101,5 +105,76 @@ export default function UnlockPage() {
         ))}
       </div>
     </>
+  );
+}
+
+function ConnectionStatusIndicator() {
+  const [status, setStatus] = useConnectStatus();
+  const [isConnecting, setIsConnecting] = useState(false);
+  const isConnected = status === ConnectionStatus.Connected;
+  
+  const handleConnectBluetooth = async () => {
+    setIsConnecting(true);
+    try {
+      const bluetooth = createWebBluetoothConnection();
+      const connectionStatus = await bluetooth.connect();
+
+      if (connectionStatus !== "CONNECTED") {
+        console.error("Connection failed:", connectionStatus);
+        setIsConnecting(false);
+        return;
+      }
+      
+      // Update the global connection status
+      setStatus(ConnectionStatus.Connected);
+      setIsConnecting(false);
+    } catch (err) {
+      console.error("Bluetooth connection error:", err);
+      setIsConnecting(false);
+    }
+  };
+  
+  return (
+    <div style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      marginBottom: "16px",
+      padding: "8px 12px",
+      backgroundColor: isConnected ? "rgba(46, 204, 113, 0.2)" : "rgba(255, 100, 100, 0.2)",
+      borderRadius: "8px",
+      border: `1px solid ${isConnected ? "rgba(46, 204, 113, 0.4)" : "rgba(255, 100, 100, 0.4)"}`,
+      width: "fit-content",
+      margin: "0 auto 16px"
+    }}>
+      <div style={{
+        width: "10px",
+        height: "10px",
+        borderRadius: "50%",
+        backgroundColor: isConnected ? "#2ecc71" : "#ff6464"
+      }} />
+      <span style={{ fontSize: "0.9rem" }}>
+        Micro:bit: {isConnected ? "Connected ✓" : "Not connected"}
+      </span>
+      {!isConnected && (
+        <button
+          onClick={handleConnectBluetooth}
+          disabled={isConnecting}
+          style={{
+            padding: "6px 12px",
+            fontSize: "0.85rem",
+            backgroundColor: "rgba(56, 176, 255, 0.6)",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+            cursor: isConnecting ? "not-allowed" : "pointer",
+            marginLeft: "8px",
+            opacity: isConnecting ? 0.6 : 1
+          }}
+        >
+          {isConnecting ? "Connecting..." : "Connect via Bluetooth"}
+        </button>
+      )}
+    </div>
   );
 }
