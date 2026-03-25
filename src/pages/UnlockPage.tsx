@@ -41,6 +41,16 @@ export default function UnlockPage() {
     setLog((previous) => [text, ...previous].slice(0, 30));
   };
 
+  const resetUnlocks = () => {
+    setUnlocked({});
+    try {
+      localStorage.removeItem(UNLOCK_KEY);
+    } catch {
+      // ignore
+    }
+    addLog("🔄 All unlocks reset");
+  };
+
   const unlockDance = (name: string) => {
     setUnlocked((prev) => {
       const next = { ...prev, [name]: true };
@@ -196,6 +206,22 @@ export default function UnlockPage() {
           <div key={index}>{entry}</div>
         ))}
       </div>
+
+      <button
+        onClick={resetUnlocks}
+        style={{
+          marginTop: "16px",
+          padding: "8px 16px",
+          fontSize: "0.85rem",
+          backgroundColor: "rgba(200, 100, 100, 0.6)",
+          color: "#fff",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+        }}
+      >
+        Reset Unlocks
+      </button>
     </>
   );
 }

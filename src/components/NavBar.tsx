@@ -20,12 +20,6 @@ export default function NavBar() {
           Code
         </NavLink>
         <NavLink
-          to="/connect"
-          className={({ isActive }) => (isActive ? "menu-btn active" : "menu-btn")}
-        >
-          Connect
-        </NavLink>
-        <NavLink
           to="/data-samples"
           className={({ isActive }) => (isActive ? "menu-btn active" : "menu-btn")}
         >
