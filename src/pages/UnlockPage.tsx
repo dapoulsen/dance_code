@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useConnectStatus , ConnectionStatus } from "../connect-status-hooks"
-import { useConnectionStage } from "../connection-stage-hooks";
 import { createWebBluetoothConnection } from "@microbit/microbit-connection";
 
 const patterns: Record<string, string[]> = {
@@ -28,6 +27,8 @@ export default function UnlockPage() {
     }
   });
   const [log, setLog] = useState<string[]>([]);
+  const [bluetoothRef, setBluetoothRef] = useState<ReturnType<typeof createWebBluetoothConnection> | null>(null);
+  const [isCapturing, setIsCapturing] = useState(false);
 
   const addLog = (text: string) => {
     setLog((previous) => [text, ...previous].slice(0, 30));
@@ -54,6 +55,30 @@ export default function UnlockPage() {
         unlockDance(dance);
       }
     }
+  };
+
+  const captureAccelerometerData = (danceName: string) => {
+    if (!bluetoothRef) {
+      addLog("⚠️ Micro:bit not connected");
+      return;
+    }
+
+    setIsCapturing(true);
+    addLog(`Recording ${danceName}...`);
+
+    const handleAccelData = (event: any) => {
+      const v = event.data;
+      const message = `[${danceName}] x=${v.x.toFixed(1)} y=${v.y.toFixed(1)} z=${v.z.toFixed(1)}`;
+      addLog(message);
+    };
+
+    bluetoothRef.addEventListener("accelerometerdatachanged", handleAccelData);
+
+    setTimeout(() => {
+      bluetoothRef.removeEventListener("accelerometerdatachanged", handleAccelData);
+      setIsCapturing(false);
+      addLog(`Recording ${danceName} complete ✓`);
+    }, 3000);
   };
 
   useEffect(() => {
@@ -84,16 +109,34 @@ export default function UnlockPage() {
           >
             {isUnlocked ? dance.icon : "?"}
             <p>{dance.label}</p>
+            <button
+              onClick={() => captureAccelerometerData(dance.label)}
+              disabled={isCapturing || !bluetoothRef}
+              style={{
+                width: "100%",
+                padding: "8px",
+                marginTop: "8px",
+                fontSize: "0.85rem",
+                backgroundColor: isCapturing || !bluetoothRef ? "rgba(100, 100, 100, 0.4)" : "rgba(56, 176, 255, 0.6)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                cursor: isCapturing || !bluetoothRef ? "not-allowed" : "pointer",
+                opacity: isCapturing || !bluetoothRef ? 0.5 : 1
+              }}
+            >
+              {isCapturing ? "Recording..." : "Record"}
+            </button>
           </div>
         );
       }),
-    [unlocked]
+    [unlocked, isCapturing, bluetoothRef]
   );
 
   return (
     <>
       <h1>Dance Unlock</h1>
-      <ConnectionStatusIndicator />
+      <ConnectionStatusIndicator bluetoothRef={bluetoothRef} setBluetoothRef={setBluetoothRef} />
       <p>Press the keys <strong>A</strong>, <strong>D</strong>, and <strong>S</strong> to unlock dances.</p>
 
       <div className="dance-grid">{danceCards}</div>
@@ -108,7 +151,7 @@ export default function UnlockPage() {
   );
 }
 
-function ConnectionStatusIndicator() {
+function ConnectionStatusIndicator({  setBluetoothRef }: any) {
   const [status, setStatus] = useConnectStatus();
   const [isConnecting, setIsConnecting] = useState(false);
   const isConnected = status === ConnectionStatus.Connected;
@@ -125,7 +168,7 @@ function ConnectionStatusIndicator() {
         return;
       }
       
-      // Update the global connection status
+      setBluetoothRef(bluetooth);
       setStatus(ConnectionStatus.Connected);
       setIsConnecting(false);
     } catch (err) {
