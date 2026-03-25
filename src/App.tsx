@@ -47,6 +47,8 @@ import ImportPage from "./pages/ImportPage";
 import NewPage from "./pages/NewPage";
 import TestingModelPage from "./pages/TestingModelPage";
 import OpenSharedProjectPage from "./pages/OpenSharedProjectPage";
+import UnlockPage from "./pages/UnlockPage";
+import ConnectPage from "./pages/ConnectPage";
 import { useStore } from "./store";
 import {
   createCodePageUrl,
@@ -57,6 +59,8 @@ import {
   createNewPageUrl,
   createTestingModelPageUrl,
 } from "./urls";
+import CodingPage from "./pages/CodingPage";
+import NavBar from "./components/NavBar";
 
 export interface ProviderLayoutProps {
   children: ReactNode;
@@ -143,6 +147,7 @@ const Layout = () => {
       <ScrollRestoration />
       <ProjectProvider driverRef={driverRef}>
         <EditCodeDialog ref={driverRef} />
+        <NavBar />
         <Outlet />
       </ProjectProvider>
     </ErrorBoundary>
@@ -180,6 +185,18 @@ const createRouter = () => {
         {
           path: createCodePageUrl(),
           element: <CodePage />,
+        },
+        {
+          path: "/unlock",
+          element: <UnlockPage />,
+        },
+        {
+          path: "/connect",
+          element: <ConnectPage />,
+        },
+        {
+          path: "/coding",
+          element: <CodingPage />,
         },
         {
           path: createOpenSharedProjectPageUrl(),

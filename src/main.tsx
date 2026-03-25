@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import "./style.css";
 import App from "./App";
 import ReactDOM from "react-dom/client";
 

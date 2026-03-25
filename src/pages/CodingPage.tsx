@@ -244,7 +244,7 @@ export default function CodePage() {
           {routine.length > 0 ? formatRoutine(routine) : "No code generated yet."}
         </pre>
       </div>
-    </BufferedDataProvider>
+    </>
   );
 }
 

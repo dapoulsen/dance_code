@@ -7,7 +7,7 @@ import DataSamplesPage from "./DataSamplesPage";
 function App() {
   return (
     <div>
-      <header>
+      
         <nav className="topmenu">
           <NavLink to="/" end className={({ isActive }) => (isActive ? "menu-btn active" : "menu-btn")}>
             Unlock
@@ -22,7 +22,7 @@ function App() {
             Data samples
           </NavLink>
         </nav>
-      </header>
+      
 
       <main>
         <Routes>
