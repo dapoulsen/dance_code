@@ -364,7 +364,7 @@ function RecordingModal({ isOpen, stage, countdownValue, liveData, results, onCl
               }}
             >
               <div style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.7)" }}>
-                Get ready to perform the move...
+                Gør dig klar til at udføre bevægelsen...
               </div>
               <div
                 style={{
@@ -400,7 +400,7 @@ function RecordingModal({ isOpen, stage, countdownValue, liveData, results, onCl
                     marginRight: "8px",
                   }}
                 />
-                <span style={{ fontSize: "1rem", color: "rgba(255, 255, 255, 0.9)" }}>Recording...</span>
+                <span style={{ fontSize: "1rem", color: "rgba(255, 255, 255, 0.9)" }}>Optager...</span>
               </div>
 
               <div
@@ -515,12 +515,12 @@ function RecordingModal({ isOpen, stage, countdownValue, liveData, results, onCl
                     marginBottom: "8px",
                   }}
                 >
-                  {results.success ? "Perfect!" : "Not quite right"}
+                  {results.success ? "Perfekt!" : "Ikke helt rigtigt"}
                 </div>
                 <div style={{ fontSize: "0.95rem", color: "rgba(255, 255, 255, 0.7)", marginBottom: "12px" }}>
                   {results.success
-                    ? `${results.danceLabel} unlocked!`
-                    : `You performed: ${results.predictedAction}`}
+                    ? `${results.danceLabel} låst op!`
+                    : `Du udførte: ${results.predictedAction}`}
                 </div>
                 <div
                   style={{
@@ -530,7 +530,7 @@ function RecordingModal({ isOpen, stage, countdownValue, liveData, results, onCl
                     fontFamily: "monospace",
                   }}
                 >
-                  {(results.confidence * 100).toFixed(1)}% confidence
+                  {(results.confidence * 100).toFixed(1)}% sikkerhed
                 </div>
               </div>
             </div>
