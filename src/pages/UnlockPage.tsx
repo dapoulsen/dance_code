@@ -180,7 +180,7 @@ export default function UnlockPage() {
                 opacity: isCapturing || !isConnected || !model ? 0.5 : 1,
               }}
             >
-              {isCapturing ? "Recording..." : "Record"}
+              {isCapturing ? "I gang..." : "Start"}
             </button>
           </div>
         );
@@ -194,7 +194,7 @@ export default function UnlockPage() {
       <h1>Dance Unlock</h1>
       <ConnectionStatusIndicator isConnected={isConnected} onConnect={() => connectionActions.startConnect()} />
       <p>
-        Record your moves to unlock dances.
+        Udforsk moves for at åbne op for dem. Klik på "Start" og udfør det viste move med din micro:bit. Systemet vil forsøge at genkende det og låse op, hvis det er korrekt.
         {!model && " (Train a model first on the Data Samples page)"}
       </p>
 
@@ -251,7 +251,7 @@ function ConnectionStatusIndicator({ isConnected, onConnect }: { isConnected: bo
         }}
       />
       <span style={{ fontSize: "0.9rem" }}>
-        Micro:bit: {isConnected ? "Connected ✓" : "Not connected"}
+        Micro:bit: {isConnected ? "Tilsluttet ✓" : "Ikke tilsluttet"}
       </span>
       {!isConnected && (
         <button
@@ -267,7 +267,7 @@ function ConnectionStatusIndicator({ isConnected, onConnect }: { isConnected: bo
             marginLeft: "8px",
           }}
         >
-          Connect via Bluetooth
+          Tilslut via Bluetooth
         </button>
       )}
     </div>

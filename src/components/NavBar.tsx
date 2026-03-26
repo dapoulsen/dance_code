@@ -11,13 +11,13 @@ export default function NavBar() {
           to="/unlock"
           className={({ isActive }) => (isActive ? "menu-btn active" : "menu-btn")}
         >
-          Unlock
+          Udforsk
         </NavLink>
         <NavLink
           to="/coding"
           className={({ isActive }) => (isActive ? "menu-btn active" : "menu-btn")}
         >
-          Code
+          Kode
         </NavLink>
         <NavLink
           to="/data-samples"
