@@ -4,7 +4,7 @@ export default function NavBar() {
   return (
     <header>
       <nav className="topmenu">
-        <div style={{ fontSize: "1.3rem", fontWeight: "bold", marginRight: "auto" }}>
+        <div style={{ fontSize: "1.3rem", fontWeight: "bold", marginRight: "auto", color: "white"}}>
           DanceCode
         </div>
         <NavLink
