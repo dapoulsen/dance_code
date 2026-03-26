@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { DragEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AVAILABLE_DANCE_MOVES: { key: string; label: string; icon: string }[] = [
   { key: "spin", label: "Spin", icon: "⟳" },
@@ -20,6 +21,7 @@ interface TimelineSlot {
 }
 
 export default function CodingPage() {
+  const navigate = useNavigate();
   const [unlocked, setUnlocked] = useState<Record<string, boolean>>({});
   const [timeline, setTimeline] = useState<TimelineSlot[]>(
     Array.from({ length: TIMELINE_SLOTS }, (_, i) => ({
@@ -247,6 +249,21 @@ export default function CodingPage() {
 
         {/* Controls */}
         <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
+          <button
+            onClick={() => navigate("/routine-test", { state: { timeline, bpm: BPM } })}
+            style={{
+              padding: "10px 20px",
+              fontSize: "1rem",
+              backgroundColor: "rgba(46, 204, 113, 0.6)",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontWeight: 600,
+            }}
+          >
+            Test Routine
+          </button>
           <button
             onClick={clearAllSlots}
             style={{

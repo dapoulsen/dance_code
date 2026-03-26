@@ -48,6 +48,7 @@ import NewPage from "./pages/NewPage";
 import TestingModelPage from "./pages/TestingModelPage";
 import OpenSharedProjectPage from "./pages/OpenSharedProjectPage";
 import UnlockPage from "./pages/UnlockPage";
+import RoutineTestPage from "./pages/RoutineTestPage";
 import ConnectPage from "./pages/ConnectPage";
 import { useStore } from "./store";
 import {
@@ -58,6 +59,7 @@ import {
   createOpenSharedProjectPageUrl,
   createNewPageUrl,
   createTestingModelPageUrl,
+  createRoutineTestPageUrl,
 } from "./urls";
 import CodingPage from "./pages/CodingPage";
 import NavBar from "./components/NavBar";
@@ -185,6 +187,10 @@ const createRouter = () => {
         {
           path: createCodePageUrl(),
           element: <CodePage />,
+        },
+        {
+          path: createRoutineTestPageUrl(),
+          element: <RoutineTestPage />,
         },
         {
           path: "/unlock",

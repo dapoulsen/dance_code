@@ -27,3 +27,5 @@ export interface TestingModelPageHistoryState {
 export const createTestingModelPageUrl = () => `${basepath}testing-model`;
 
 export const createCodePageUrl = () => `${basepath}code`;
+
+export const createRoutineTestPageUrl = () => `${basepath}routine-test`;
