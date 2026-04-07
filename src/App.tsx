@@ -202,7 +202,7 @@ const createRouter = () => {
         },
         {
           path: "/coding",
-          element: <CodingPage />,
+          element: <CodePage />,
         },
         {
           path: createOpenSharedProjectPageUrl(),
